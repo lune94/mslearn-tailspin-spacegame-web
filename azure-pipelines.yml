@@ -117,7 +117,14 @@ steps:
 
 - task: WhiteSource Bolt@19
   displayName: 'Run WhiteSource Bolt'
-  
+  condition: |
+    and
+    (
+      succeeded(),
+      eq(variables['Build.Reason'], 'Pullrequest'),
+      eq(variables['System.PullRequest.TargetBranch'], 'master')
+    )
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   condition: succeeded()
